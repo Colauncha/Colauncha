@@ -2,7 +2,7 @@ from typing import Optional
 from fastapi import APIRouter, BackgroundTasks, Depends, File, Form, UploadFile
 from server.configs.database import get_db
 from server.schemas import APIResponse, PagedResponse, ServiceResultModel
-from server.schemas.Request_schema import GetRequestQuery, RequestSchema, GetRequestSchema
+from server.schemas.Request_schema import GetRequestQuery, RequestSchema, GetRequestSchema, VolunteerSchema
 from server.utils.exception_handler import ErrorMessage
 from server.services.request_form_services import RequestFormServices, RequestService
 from sqlalchemy.orm import Session
@@ -11,6 +11,15 @@ from server.middleware.auth import company_dependency
 
 
 routes = APIRouter(prefix="/requests", tags=["Service Requests"])
+
+
+def return_list_or_none(obj: str | None) -> list | None:
+    if not obj: obj = None
+    elif "," in obj and len(obj) > 0:
+        obj = [ob.strip(", ") for ob in obj.split(",")]
+    else: obj = [obj.strip()]
+    return obj
+
 
 @routes.post("/form-submit")
 async def form_submit(
@@ -45,10 +54,7 @@ async def form_submit(
 
     result = ServiceResultModel()
 
-    if not required_skills: required_skills = None
-    elif "," in required_skills and len(required_skills) > 0:
-        required_skills = [skill.strip(", ") for skill in required_skills.split(",")]
-    else: [required_skills.strip()]
+    v_skills = return_list_or_none(required_skills)
 
     file_content = None
     file_name = None
@@ -57,7 +63,7 @@ async def form_submit(
 
     try:
         request_data = RequestSchema(
-            required_skills=required_skills,
+            required_skills=v_skills,
             estimated_budget=estimated_budget,
             company_name=company_name.capitalize(),
             phone=phone,
@@ -102,6 +108,101 @@ async def form_submit(
 
     await RequestService(db).add_request(
         company.data.id, request_data
+    )
+
+    return APIResponse(
+        data=result.data,
+        message="Request submitted successfully"
+    )
+
+
+@routes.post("/volunteer-form-submit")
+async def form_submit(
+    company: company_dependency,
+    background_tasks: BackgroundTasks,
+    skills: Optional[str] = Form(None),
+    certifications: Optional[str] = Form(None),
+    name: str = Form(...),
+    education: str = Form(...),
+    role: str = Form(...),
+    phone: str = Form(...),
+    projects: Optional[str] = Form(None),
+    country: str = Form(...),
+    email: str = Form(...),
+    why_volunteer: str = Form(...),
+    attachment: Optional[UploadFile] = File(None),
+    db: Session = Depends(get_db)
+) -> APIResponse:
+
+    if not company:
+        raise ErrorMessage(
+            message="Unauthorized",
+            status_code=401,
+            detail="Login to submit request"
+        )
+    
+    if company.has_errors:
+        raise ErrorMessage(
+            message="Unauthorized",
+            status_code=401,
+            detail=company.errors
+        )
+
+    result = ServiceResultModel()
+
+    v_skills = return_list_or_none(skills)
+    v_projects = return_list_or_none(projects)
+    v_certifications = return_list_or_none(certifications)
+
+    file_content = None
+    file_name = None
+    file_type = None
+    allowed_content_types = ["application/pdf", "image/jpeg", "image/png"]
+
+    try:
+        request_data = VolunteerSchema(
+            skills=v_skills,
+            certifications=v_certifications,
+            name=name.capitalize(),
+            phone=phone,
+            role=role.capitalize(),
+            education=education.capitalize(),
+            projects=v_projects,
+            country=country.capitalize(),
+            email=email,
+            why_volunteer=why_volunteer
+        )
+        request_data = VolunteerSchema.model_validate(request_data)
+    except ValidationError as e:
+        raise ErrorMessage(
+            status_code=422,
+            detail=e.errors(),
+            message="Validation error in request data"
+        )
+
+    if attachment and attachment.content_type in allowed_content_types:
+        try:
+            file_name = attachment.filename
+            file_type = attachment.content_type
+            file_content = await attachment.read()
+        except Exception as e:
+            error_msg = "Failed to process attachment."
+            raise ErrorMessage(
+                status_code=500,
+                detail=str(e),
+                message=error_msg
+            )
+
+    RequestFormServices().volunteer_submit_colauncha(
+    request_data,
+    file_content,
+    file_name, file_type
+    )
+
+    background_tasks.add_task(
+        RequestFormServices().volunteer_submit,
+        request_data,
+        file_name
     )
 
     return APIResponse(

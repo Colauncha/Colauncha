@@ -8,8 +8,8 @@ class Company(ModelBase):
     __tablename__ = "company"
     __mapper_args__ = {"polymorphic_identity": "company"}
     name = Column(String, nullable=False, unique=True)
-    country = Column(String, nullable=False)
-    phone = Column(String, nullable=False)
+    country = Column(String, nullable=True)
+    phone = Column(String, nullable=True)
     email = Column(String, nullable=False, unique=True)
     password = Column(String, nullable=False)
 
@@ -18,14 +18,10 @@ class Company(ModelBase):
     def __init__(
             self,
             name: str,
-            country: str,
-            phone: str,
             email: str,
             password: str
         ) -> None:
         self.name = name
-        self.country = country
-        self.phone = phone
         self.email = email
         self.password = self.__hash_password(password)
     

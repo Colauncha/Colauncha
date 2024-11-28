@@ -15,11 +15,11 @@ class GetCompanySchema(BaseModel):
         description="Name of the company",
         examples=["Company Name"]
     )
-    country: str = Field(
+    country: Optional[str] = Field(
         description="Country where the company is located",
         examples=["Nigeria"]
     )
-    phone: str = Field(
+    phone: Optional[str] = Field(
         description="Phone number of the company",
         examples=["08012345678"]
     )
@@ -50,14 +50,6 @@ class RegisterCompanySchema(BaseModel):
     name: str = Field(
         description="Name of the company",
         examples=["Company Name"]
-    )
-    country: str = Field(
-        description="Country where the company is located",
-        examples=["Nigeria"]
-    )
-    phone: str = Field(
-        description="Phone number of the company",
-        examples=["08012345678"]
     )
     email: str = Field(
         description="Email of the company",
