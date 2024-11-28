@@ -32,31 +32,31 @@ const Footer = () => {
             {/* social links */}
             <div className="flex gap-14 items-center">
               <Link
-                to="https://web.facebook.com/profile.php?id=61561301576621"
+                to="https://web.facebook.com/profile.php?id=61561301576621" target="_blank" rel="noopener noreferrer"
                 className="rounded-full w-12 h-12 flex items-center justify-center"
               >
                 <img src={facebook} alt="" />
               </Link>
               <Link
-                to="https://x.com/colauncha"
+                to="https://x.com/colauncha" target="_blank" rel="noopener noreferrer"
                 className="rounded-full flex items-center justify-center"
               >
                <BsTwitterX className="w-5 h-5 font-bold"/>
               </Link>
               <Link
-                to="https://www.linkedin.com/company/colauncha/"
+                to="https://www.linkedin.com/company/colauncha/" target="_blank" rel="noopener noreferrer"
                 className="rounded-full w-12 h-12 flex items-center justify-center"
               >
                 <img src={linkedin} alt="" />
               </Link>
               <Link
-                to="https://www.instagram.com/colauncha/"
+                to="https://www.instagram.com/colauncha/" target="_blank" rel="noopener noreferrer"
                 className="rounded-full w-12 h-12 flex items-center justify-center"
               >
                 <img src={instagram} alt="" />
               </Link>
               <Link
-                to="https://wa.me/+23490356672867"
+                to="https://wa.me/+23490356672867" target="_blank" rel="noopener noreferrer"
                 className="rounded-full w-12 h-12 flex items-center justify-center"
               >
                 <img src={whatsapp} alt="" />

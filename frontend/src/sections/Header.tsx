@@ -4,7 +4,7 @@ import { Button } from "../components/ui/button";
 import { useState, useEffect } from "react";
 import { X } from "lucide-react";
 import { Link, NavLink } from "react-router-dom";
-import { CiFacebook, CiInstagram, CiLinkedin, CiYoutube } from "react-icons/ci";
+import { CiFacebook, CiInstagram, CiLinkedin, CiTwitter} from "react-icons/ci";
 
 
 
@@ -59,16 +59,16 @@ const Header: React.FC = (): JSX.Element => {
              })}
              <div className="w-[85%] border-t-[1px] absolute bottom-16 ">
                 <div className="flex gap-4 py-4">
-                    <Link to="http://www.linkedin.com">
+                    <Link to="https://www.linkedin.com/company/colauncha/" target="_blank" rel="noopener noreferrer">
                         <CiFacebook size={25} color="white"/>
                     </Link>
-                    <Link to="http://www.facebook.com">
-                        <CiYoutube size={25} color="white"/>
+                    <Link to="https://web.facebook.com/profile.php?id=61561301576621" target="_blank" rel="noopener noreferrer">
+                        <CiTwitter size={25} color="white"/>
                     </Link>
-                    <Link to="http://www.twitter.com">
+                    <Link to="https://x.com/colauncha" target="_blank" rel="noopener noreferrer">
                         <CiInstagram size={25} color="white"/>
                     </Link>
-                    <Link to="htttp://www.Instagram.com">
+                    <Link to="https://www.instagram.com/colauncha/" target="_blank" rel="noopener noreferrer">
                         <CiLinkedin size={25} color="white"/>
                     </Link>
                 </div>
