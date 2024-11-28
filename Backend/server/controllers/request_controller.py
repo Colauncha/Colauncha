@@ -59,7 +59,13 @@ async def form_submit(
     file_content = None
     file_name = None
     file_type = None
-    allowed_content_types = ["application/pdf", "image/jpeg", "image/png"]
+    allowed_content_types = ["application/pdf", "image/jpeg", "image/png",
+                             "application/msword",
+                             "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                             "application/vnd.ms-powerpoint",
+                             "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+                            ]
+
 
     try:
         request_data = RequestSchema(
@@ -157,7 +163,12 @@ async def form_submit(
     file_content = None
     file_name = None
     file_type = None
-    allowed_content_types = ["application/pdf", "image/jpeg", "image/png"]
+    allowed_content_types = ["application/pdf", "image/jpeg", "image/png",
+                             "application/msword",
+                             "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                             "application/vnd.ms-powerpoint",
+                             "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+                            ]
 
     try:
         request_data = VolunteerSchema(
