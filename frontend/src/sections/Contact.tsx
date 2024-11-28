@@ -11,14 +11,24 @@ const Contact = () => {
     >
       <div className="w-[90%] mx-auto">
         <h2 className="text-[25px] lg:text-[38px] font-bold">Contact Us</h2>
-        <div className="grid md:grid-cols-2 gap-10 lg:gap-24 relative">
-          <div className="bg-[#f7f5bc] lg:w-full xl:w-[600px] lg:h-[260px] rounded-[20px] py-20 px-10 place-content-center">
+        <div className="flex flex-col lg:flex-row justify-center items-center gap-10 lg:gap-24 relative">
+          <div className="bg-[#f7f5bc] w-full xl:w-[50%] lg:h-[260px] rounded-[20px] py-20 px-10 place-content-center">
             <p className="text-[20px]">
               Stay updated with the latest news, resources, and events. Get
               insightful articles, tips, and more delivered to your inbox.
             </p>
           </div>
-          <div className=" hidden lg:block lg:absolute lg:top-20 lg:left-[calc(100%-40rem)] bg-blue-500 rounded-full">
+          {/* <div className=" hidden lg:block lg:absolute lg:top-20 lg:left-[calc(100%-40rem)] bg-blue-500 rounded-full">
+            <Link
+              to="https://wa.me/+2347084274918"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-full w-28 h-28 flex items-center justify-center"
+            >
+              <img src={whatsapp} alt="whatsapp" />
+            </Link>
+          </div> */}
+          <div className=" hidden lg:block lg:absolute bg-blue-500 rounded-full">
             <Link
               to="https://wa.me/+2347084274918"
               target="_blank"
@@ -28,7 +38,7 @@ const Contact = () => {
               <img src={whatsapp} alt="whatsapp" />
             </Link>
           </div>
-          <div className="bg-[#f7f5bc] lg:w-full lg:h-[260px] rounded-[20px] py-16 px-8 md:px-12 flex flex-col">
+          <div className="bg-[#f7f5bc] w-full lg:h-[260px] xl:w-[50%]  rounded-[20px] py-16 px-8 md:px-12 flex flex-col">
             <div className="flex flex-col">
               <h2 className="text-center text-[24px] font-[600]">Call Us</h2>
               <div className="flex gap-28 items-center md:gap-10 lg:gap-28">

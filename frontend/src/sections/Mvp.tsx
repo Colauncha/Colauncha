@@ -3,12 +3,6 @@ import { mvp } from "../constants"
 
 
 
-interface Info {
-  id: number;
-  title: string;
-  img: string;
-  body: string;
-}
 const Mvp = () => {
 
   return (
@@ -16,7 +10,7 @@ const Mvp = () => {
     <div className="w-[90%] lg:w-[85%] mx-auto min-h-[70vh]">
         <div className="text-2xl lg:text-4xl py-14">MVPs</div>
     <div className="grid sm:grid-col-2 md:grid-cols-3 lg:grid-col-4 gap-6">
-      {mvp.map((info:Info)=>{
+      {mvp.map((info)=>{
         return(
         <>
          <li key={info.id}>

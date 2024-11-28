@@ -5,28 +5,62 @@ import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 import Talent from "../sections/Talent";
 import { Button } from "../components/ui/button";
-import ProjectRequest from "./ProjectRequest";
+import { useAuth } from "../Context/AuthContext";
+import axios from "axios";
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+// @ts-ignore
+// const formDataToSend = formData.append("key", value);
+
+
+interface FormData {
+  [key: string]: string;
+  name: string;
+  email: string;
+  phone: string;
+  country: string;
+  skills: string;
+  education: string;
+  projects: string;
+  certifications: string;
+  role: string;
+  why_volunteer: string;
+  reason: string;
+}
+
+
+
+const rowCount: number = 6;
+const colCount: number = 50;
 const TalentRequest = () => {
+
+  const {token} = useAuth()
   // State for each form field
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
     phone: "",
     country: "",
-    skill: "",
-    education: "",
-    project: "",
-    certification: "",
     skills: "",
-    message: "",
+    education: "",
+    projects: "",
+    certifications: "",
+    role: "",
+    why_volunteer: "",
+    reason:"",
   });
+  
   const [file, setFile] = useState(null);
+  // const [formSubmitted, setFormSubmitted] = useState<boolean | null>(null);
+
 
   // Handle input changes
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>)=> {
     const { id, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [id]: value }));
+
   };
 
   // Handle file drop
@@ -34,12 +68,14 @@ const TalentRequest = () => {
     event.preventDefault();
     const droppedFile = event.dataTransfer.files[0];
     setFile(droppedFile);
+    console.log(droppedFile.name);
   };
 
   // Handle file selection
   const handleFileSelect = (event) => {
     const selectedFile = event.target.files[0];
     setFile(selectedFile);
+    console.log(file.name);
   };
 
   // Prevent default drag behavior
@@ -47,32 +83,42 @@ const TalentRequest = () => {
     event.preventDefault();
   };
 
-  // Handle form submission
-  const handleSubmit = (e) => {
+  // HANDLE FORM SUBMISSION
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    toast.success('Your form has been submitted successfully!');
 
-    // Prepare form data to be sent
-    const dataToSend = { ...formData, file };
+    const formDataToSend = new FormData();
 
-    // POST request to backend
-    fetch("/api/talent-request", {
-      method: "POST",
+  // Append each field to formDataToSend
+  for (const key in formData) {
+    formDataToSend.append(key, formData[key]);
+  }
+
+  // Append the file attachment
+  formDataToSend.append("attachment", file);
+
+  
+
+  try {
+    // Send the POST request
+    const response = await axios.post("https://lc96ppln-8000.uks1.devtunnels.ms/api/requests/volunteer-form-submit", formDataToSend, {
       headers: {
         "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`
       },
-      body: JSON.stringify(dataToSend),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Form submitted successfully:", data);
-        // Clear form or give feedback to the user
-      })
-      .catch((error) => {
-        console.error("Error submitting form:", error);
-      });
-  };
+    });
 
+    // Handle the response
+    console.log("Response:", response.data);
+  } catch (error) {
+    console.error("Error uploading form data:", error);
+  }
+  
+
+  };
   return (
+
     <div className="min-h-screen w-full mt-[100px]">
       <div className="w-[90%] mx-auto ">
         <Talent />
@@ -87,58 +133,74 @@ const TalentRequest = () => {
           </Button>
         </>
       </div>
-      <form className="bg-[#f5f5f5] w-[70%] mx-auto flex flex-col justify-center items-center">
+      {/* Feedback Message */}
+      {/* {formSubmitted && (
+        <div
+          className={`w-[70%] mx-auto p-4 text-center rounded-md ${
+            formSubmitted.type === "success"
+              ? "bg-green-100 text-green-700"
+              : "bg-red-100 text-red-700"
+          }`}
+        >
+          {formSubmitted.message}
+        </div>
+      )} */}
+      <form className="bg-[#f5f5f5] w-[70%] mx-auto flex flex-col justify-center items-center" onKeyDown={(e) => {
+    if (e.key === "Enter") {
+      e.preventDefault(); // Prevent form submission
+    }
+  }}>
         <div className="w-full grid grid-cols-2 p-4 sm:p-12 gap-4 ">
           {/* name and email */}
           <div className="">
             <div className="grid w-full text-xl  items-center gap-1.5">
-              <Label htmlFor="name" className="flex justify-start items-center gap-6" >Your Name <p className="text-red-500">(Optional)</p></Label>
-              <Input type="text" id="name" required className="h-12" />
+              <Label htmlFor="name" className="flex justify-start items-center gap-6" >Your Name </Label>
+              <Input type="text" id="name" required className="h-12" value={formData.name} onChange={handleChange} />
             </div>
           </div>
           <div>
             <div className="grid w-full  items-center gap-1.5">
-              <Label htmlFor="email">Email</Label>
-              <Input type="email" id="email" required className="h-12" />
+              <Label htmlFor="email" className="flex gap-4">Email <p className="text-red-500">*</p></Label>
+              <Input type="email" id="email" required className="h-12" value={formData.email} onChange={handleChange} />
             </div>
           </div>
           {/* phone and Country */}
           <div>
             <div className="grid w-full text-xl  items-center gap-1.5">
-              <Label htmlFor="phone">Phone Number</Label>
-              <Input type="number" id="phone" required className="h-12" />
+              <Label htmlFor="phone"  className="flex gap-4">Phone Number <p className="text-red-500">*</p></Label>
+              <Input type="number" id="phone" required className="h-12"value={formData.phone} onChange={handleChange} />
             </div>
           </div>
           <div>
             <div className="grid w-full  items-center gap-1.5">
-              <Label htmlFor="country">Country</Label>
-              <Input type="text" id="country" required className="h-12" />
+              <Label htmlFor="country"  className="flex gap-4">Country <p className="text-red-500">*</p></Label>
+              <Input type="text" id="country" required className="h-12" value={formData.country} onChange={handleChange} />
             </div>
           </div>
-          {/* skill and education*/}
+          {/* Role and education*/}
           <div>
             <div className="grid w-full text-xl  items-center gap-1.5">
-              <Label htmlFor="project">Skill</Label>
-              <Input type="text" id="skill" required className="h-12" />
+              <Label htmlFor="project"  className="flex gap-4">Role <p className="text-red-500">*</p></Label>
+              <Input type="text" id="role" required className="h-12" value={formData.role} onChange={handleChange}/>
             </div>
           </div>
           <div>
             <div className="grid w-full  items-center gap-1.5">
-              <Label htmlFor="budget">Education</Label>
-              <Input type="text" id="education" required className="h-12" />
+              <Label htmlFor="budget"  className="flex gap-4">Education <p className="text-red-500">*</p></Label>
+              <Input type="text" id="education" required className="h-12"value={formData.education} onChange={handleChange} />
             </div>
           </div>
           {/* Project and certification*/}
           <div>
             <div className="grid w-full text-xl  items-center gap-1.5">
-              <Label htmlFor="time-frame">Project worked on</Label>
-              <Input type="text" id="project" required className="h-12" />
+              <Label htmlFor="time-frame"  className="flex gap-4">Project(coma separated) worked on <p className="text-red-500">*</p></Label>
+              <Input type="text" id="projects" required className="h-12" value={formData.projects} onChange={handleChange}/>
             </div>
           </div>
           <div>
             <div className="grid w-full  items-center gap-1.5">
-              <Label htmlFor="company-name">Certification</Label>
-              <Input type="text" id="certification" required className="h-12" />
+              <Label htmlFor="company-name"  className="flex gap-4">Certification(s) <p className="text-red-500">*</p></Label>
+              <Input type="text" id="certifications" required className="h-12" value={formData.certifications} onChange={handleChange} />
             </div>
           </div>
         </div>
@@ -148,10 +210,10 @@ const TalentRequest = () => {
             <div>
               {/* required skills */}
               <div className="grid w-full  items-center gap-1.5  mb-6">
-                <Label htmlFor="skills">
-                  Required Skills (Comma separated)
+                <Label htmlFor="skills" className="flex gap-4">
+                  Required Skills (Comma separated) <p className="text-red-500">*</p>
                 </Label>
-                <Input type="text" id="skills" required className="h-12" />
+                <Input type="text" id="skills" required className="h-12" value={formData.skills} onChange={handleChange} />
               </div>
               {/* upload files */}
               <div className="text-center">
@@ -183,15 +245,16 @@ const TalentRequest = () => {
               </div>
               {/* reasons why you are volunteering */}
               <div className="grid w-full  items-center gap-1.5">
-                <Label htmlFor="message">
-                  Reasons why you are volunteering
+                <Label htmlFor="message"  className="flex gap-4">
+                  Reasons why you are volunteering <p className="text-red-500">*</p>
                 </Label>
                 <textarea
                   placeholder="Enter your message here..."
-                  id="reasons"
-                  rows="6"
-                  cols="50"
+                  id="why_volunteer"
+                  rows={rowCount}
+                  cols={colCount}
                   className="rounded-md border-[1px] border-gray-300 bg-transparent p-6"
+                  value={formData.why_volunteer} onChange={handleChange}
                 ></textarea>
               </div>
             </div>
@@ -204,6 +267,7 @@ const TalentRequest = () => {
           Submit
         </Button>
       </form>
+      <ToastContainer />
     </div>
   );
 };

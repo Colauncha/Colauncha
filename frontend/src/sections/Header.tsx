@@ -17,8 +17,6 @@ const Header: React.FC = (): JSX.Element => {
 
     const handleMobileClick = (): void => {
     setMobileMenu((mobile)=>!mobile)
-    // console.log("clicked");
-    
     };
 
   useEffect(() => {
@@ -81,7 +79,7 @@ const Header: React.FC = (): JSX.Element => {
            <div className="flex items-center gap-x-4">
            <div>
                 <Button className="text-[#3783FF] w-28 bg-white rounded-xl hover:bg-blue-700 hover:text-white">
-                <Link to="/talent-request" onClick={handleMobileClick}>
+                <Link to="/dashboard">
                     Get Started
                     </Link> 
                 </Button>
@@ -108,6 +106,7 @@ const Header: React.FC = (): JSX.Element => {
                  )
              })}
             </div>
+            
             <div>
                 <Button className="text-[#3783FF] w-28 bg-white rounded-xl hover:bg-blue-700 hover:text-white">
                     <Link to="/dashboard">
@@ -124,4 +123,4 @@ const Header: React.FC = (): JSX.Element => {
   
 }
 
-export default Header
+export default Header;

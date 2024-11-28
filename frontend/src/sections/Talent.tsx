@@ -3,6 +3,8 @@ import Card from "../components/Card";
 
 import { talent } from "../constants";
 
+
+
 const Talent = () => {
   return (
     <div className="h-scren w-full lg:mt-20 px-8 pb-10 sm:w-[94%] sm:mx-auto">

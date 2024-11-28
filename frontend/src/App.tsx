@@ -13,18 +13,23 @@ import JoinAsTalent from "./sections/JoinAsTalent";
 import BookTalent from "./sections/BookTalent";
 import OurTeam from "./Pages/OurTeam";
 import ProjectRequest from "./Pages/ProjectRequest";
-import { AnimatePresence, motion, useScroll } from "framer-motion";
 import ProtectedRoute from "./Context/ProtectedRoute";
 import { AuthProvider } from "./Context/AuthContext";
 import Dashboard from "./Pages/Dashboard";
 
-function App() {
-  const { scrollYProgress } = useScroll();
 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
+
+
+
+function App() {
+ 
   return (
     <AuthProvider>
-    <AnimatePresence>
-      <motion.div className="app">
+    
         <Router>
           <Header />
           <Routes>
@@ -57,10 +62,9 @@ function App() {
               }
             />
           </Routes>
+          <ToastContainer />
           <Footer />
         </Router>
-      </motion.div>
-    </AnimatePresence>
     </AuthProvider>
   );
 }

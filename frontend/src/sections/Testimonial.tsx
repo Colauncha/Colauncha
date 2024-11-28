@@ -1,9 +1,19 @@
+import { FC } from 'react';
 import bg from "../assets/clients/clientsays.png";
 import { client_1, client_2, client_3 } from "../constants";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import { motion } from "motion/react"
+
+
+
+
+interface ArrowProps {
+  className?: string;
+  style?: React.CSSProperties;
+  onClick?: () => void;
+}
 
 const feedback = [
   {
@@ -18,7 +28,7 @@ const feedback = [
     img: client_2,
     name: "Francis Cole",
     testimony:
-      "Hey! Colaucha is taking over in the ecosystem, from Nigeria to the World, thank you amazing team for a swift delivery.",
+      "Colauncha provided me the needed space to thrive as a talent. I doubted my skill level before joining as a talent, but now confident",
   },
   {
     id: 3,
@@ -29,23 +39,23 @@ const feedback = [
   },
 ];
 
-function SampleNextArrow(props) {
+const SampleNextArrow: FC<ArrowProps> =(props)=>{
   const { className, style, onClick } = props;
   return (
     <div
       className={className}
-      style={{ ...style, background: "skyblue" }}
+      style={{ ...style, background: "skyblue",borderRadius: "100%" }}
       onClick={onClick}
     />
   );
 }
 
-function SamplePrevArrow(props) {
+const SamplePrevArrow: FC<ArrowProps> = (props) => {
   const { className, style, onClick } = props;
   return (
     <div
       className={className}
-      style={{ ...style, background: "skyblue" }}
+      style={{ ...style, background: "skyblue",borderRadius: "100%" }}
       onClick={onClick}
     />
   );
@@ -81,7 +91,7 @@ const Testimonial = () => {
   };
 
   return (
-    <div className="w-full min-h-screen mb-40" id="testimonial-section">
+    <div className="w-full min-h-[80vh] mb-40" id="testimonial-section">
       <div
         className="bg-cover bg-center h-[70vh] flex flex-col  relative "
         style={{ backgroundImage: `url(${bg})` }}
@@ -97,10 +107,9 @@ const Testimonial = () => {
         <div className="slider-container w-[75%] mx-auto px-4 lg:px-8 relative space-y-60 top-[250px]">
           <Slider {...settings}>
             {feedback.map((item) => (
-              <div className="space-y-44">
+              <div className="space-y-44"   key={item.id}>
                 <div
-                  key={item.id}
-                  className="flex flex-col gap-[40px] bg-[#ff8c0080] p-4 h-[250px] rounded-3xl border-2 z-10 "
+                  className="flex flex-col gap-[40px] bg-[#ff8c0080] p-4 h-[250px] rounded-3xl border-2 z-10 mt-20 lg:mt-24 "
                 >
                   <div className="flex items-center gap-6">
                     <img

@@ -1,19 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; 
-import axios from "axios"
+import axios from "axios";
 import { useAuth } from "../Context/AuthContext";
 
-
 const Auth = () => {
-
-
-//  useEffect(()=>{
- 
-//  },[])
-
-const { login, setToken } = useAuth();
-
- const navigate = useNavigate(); //initialization
+  const { login, setToken } = useAuth();
+  const navigate = useNavigate();
 
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
@@ -23,6 +15,7 @@ const { login, setToken } = useAuth();
     confirmPassword: '',
   });
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false); // Loading state
 
   const toggleForm = () => {
     setIsLogin(!isLogin);
@@ -37,97 +30,51 @@ const { login, setToken } = useAuth();
       [name]: value,
     }));
   };
-// handle submit for Registration
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(null);
     const { name, email, password, confirmPassword } = formData;
 
-    axios.post(
-      "https://lc96ppln-8000.uks1.devtunnels.ms/api/company/register",
-      formData, 
-      {
-        headers: {
-          "Content-Type": "application/json"
-        }
-      }
-    )
-    .then(response => {
-      console.log(response.data);
-      navigate('/login');  
-    })
-    .catch(error => {
-      console.error('Error fetching data:', error);
-    });
-    
-  
-
-    if (isLogin) {
-      if (!email || !password) {
-        setError('Please fill in both fields.');
-        return;
-      }
-      console.log('Logged in:', { email, password });
-    } else {
-      if (!name || !email || !password || !confirmPassword) {
-        setError('All fields are required.');
-        return;
-      }
-      if (password !== confirmPassword) {
-        setError('Passwords do not match.');
-        return;
-      }
-      console.log('Signed up:', { name, email, password });
+    if (!isLogin && (!name || !email || !password || !confirmPassword)) {
+      setError('All fields are required.');
+      return;
     }
 
-    setError(null);
-  };
-// login 
-  const handleLoginSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const { email, password} = formData;
+    if (!isLogin && password !== confirmPassword) {
+      setError('Passwords do not match.');
+      return;
+    }
 
-    axios.post(
-      "https://lc96ppln-8000.uks1.devtunnels.ms/api/company/login",
-      formData, 
-      {
+    if (isLogin && (!email || !password)) {
+      setError('Please fill in both fields.');
+      return;
+    }
+
+    setIsLoading(true); // Set loading state to true
+    try {
+      const url = isLogin
+        ? "https://lc96ppln-8000.uks1.devtunnels.ms/api/company/login"
+        : "https://lc96ppln-8000.uks1.devtunnels.ms/api/company/register";
+
+      const response = await axios.post(url, formData, {
         headers: {
-          "Content-Type": "application/json"
-        }
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (isLogin) {
+        setToken(response.data.data.access_token);
+        login();
       }
-    )
-    .then(response => {
-      setToken(response.data.data.access_token)
-      console.log(response.data);
-      setIsLogin(true)
-      login() 
+
       navigate('/dashboard');
-     
-    })
-    .catch(error => {
+    } catch (error) {
+      setError('An error occurred. Please try again.');
       console.error('Error fetching data:', error);
-    });
-    
-  
-
-    if (isLogin) {
-      if (!email || !password) {
-        setError('Please fill in both fields.');
-        return;
-      }
-      console.log('Logged in:', { email, password });
-    } else {
-      if (!name || !email || !password || !confirmPassword) {
-        setError('All fields are required.');
-        return;
-      }
-      if (password !== confirmPassword) {
-        setError('Passwords do not match.');
-        return;
-      }
-      console.log('Signed up:', { name, email, password });
+    } finally {
+      setIsLoading(false); // Reset loading state
     }
-
-    setError(null);
   };
 
   return (
@@ -137,7 +84,7 @@ const { login, setToken } = useAuth();
           {isLogin ? 'Login' : 'Sign Up'}
         </h2>
 
-        <form onSubmit={!isLogin ? handleSubmit: handleLoginSubmit } className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4">
           {error && (
             <p className="text-red-600 text-sm text-center">{error}</p>
           )}
@@ -152,7 +99,7 @@ const { login, setToken } = useAuth();
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 "
               />
             </div>
           )}
@@ -166,7 +113,7 @@ const { login, setToken } = useAuth();
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 "
             />
           </div>
 
@@ -200,9 +147,14 @@ const { login, setToken } = useAuth();
 
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white py-2 rounded-md font-semibold hover:bg-blue-600 transition duration-300"
+            className="w-full bg-blue-500 text-white py-2 rounded-md font-semibold hover:bg-blue-600 transition duration-300 flex items-center justify-center"
+            disabled={isLoading}
           >
-            {isLogin ? 'Login' : 'Sign Up'}
+            {isLoading ? (
+              <span className="loader"></span>
+            ) : (
+              isLogin ? 'Login' : 'Sign Up'
+            )}
           </button>
         </form>
 

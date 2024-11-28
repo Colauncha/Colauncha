@@ -6,6 +6,15 @@ import Talent from "../sections/Talent";
 import { Button } from "../components/ui/button";
 import { useAuth } from "../Context/AuthContext";
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
+
+
+
+
+
 const ProjectRequest = () => {
 
   const {token} = useAuth();
@@ -24,35 +33,42 @@ const ProjectRequest = () => {
     required_skills: "",
     description: "",
   });
+
+
   const [file, setFile] = useState(null);
 
   // Handle input changes
-  const handleChange = (e) => {
+  const handleChange = (e):void => {
     const { id, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [id]: value }));
+
   };
 
   // Handle file drop
-  const handleDrop = (event) => {
+  const handleDrop = (event):void => {
     event.preventDefault();
     const droppedFile = event.dataTransfer.files[0];
     setFile(droppedFile);
+    console.log(droppedFile.name);
   };
 
   // Handle file selection
-  const handleFileSelect = (event) => {
+  const handleFileSelect = (event):void => {
     const selectedFile = event.target.files[0];
     setFile(selectedFile);
+    console.log(file.name);
   };
 
   // Prevent default drag behavior
-  const handleDragOver = (event) => {
+  const handleDragOver =  (event: React.DragEvent): void => {
     event.preventDefault();
   };
 
-  // Handle form submission
+  //  HANDLE FORM SUBMISSION
   const handleSubmit = async (e) => {
     e.preventDefault();
+    toast.success('Your form has been submitted successfully!');
+
 
     const formDataToSend = new FormData();
 
@@ -62,7 +78,7 @@ const ProjectRequest = () => {
   }
 
   // Append the file attachment
-  formDataToSend.append("file", file);
+  formDataToSend.append("attachment", file);
 
   try {
     // Send the POST request
@@ -72,7 +88,7 @@ const ProjectRequest = () => {
         Authorization: `Bearer ${token}`
       },
     });
-
+    if (response)
     // Handle the response
     console.log("Response:", response.data);
   } catch (error) {
@@ -83,6 +99,9 @@ const ProjectRequest = () => {
 
   return (
 
+// { error? "error submitting data": "Successfully submitted" }
+
+
     <div className="min-h-screen w-full mt-[100px]">
       <div className="w-[90%] mx-auto ">
         <Talent />
@@ -90,7 +109,11 @@ const ProjectRequest = () => {
       <div className="text-center text-2xl mb-6 font-bold">
         <p>Let Us build your Project for you </p>
       </div>
-      <form className="bg-[#f5f5f5] w-[70%] mx-auto flex flex-col justify-center items-center">
+      <form className="bg-[#f5f5f5] w-[70%] mx-auto flex flex-col justify-center items-center" onKeyDown={(e) => {
+    if (e.key === "Enter") {
+      e.preventDefault(); // Prevent form submission
+    }
+  }} >
         <div className="w-full grid grid-cols-2 p-4 sm:p-12 gap-4 ">
           {/* name and email */}
           <div>
@@ -128,7 +151,7 @@ const ProjectRequest = () => {
           <div>
             <div className="grid w-full  items-center gap-1.5">
               <Label htmlFor=" estimated_budget"> Estimated Budget</Label>
-              <Input type="text" id=" estimated_budget" required className="h-12"value={formData.estimated_budget}  onChange={handleChange}/>
+              <Input type="text" id="estimated_budget" required className="h-12"value={formData.estimated_budget}  onChange={handleChange}/>
             </div>
           </div>
           {/*Time frame and company*/}
@@ -158,7 +181,7 @@ const ProjectRequest = () => {
               </div>
               {/* upload files */}
               <div className="text-center">
-                <h3 className="text-start font-poppins">Upload Files</h3>
+                <h3 className="text-start font-poppins">Upload Files (max - 2mb)</h3>
                 <div
                   className="border-2 border-dashed border-gray-300 p-10 rounded-md bg-gray-100 text-blue-500 cursor-pointer mb-4"
                   onDragOver={handleDragOver}
@@ -186,12 +209,12 @@ const ProjectRequest = () => {
               </div>
               {/* Message*/}
               <div className="grid w-full  items-center gap-1.5">
-                <Label htmlFor="description">Description</Label>
+                <Label htmlFor="description">Description(min-10 & max-250 characters)</Label>
                 <textarea
                   placeholder="Enter your message here..."
-                  id="discription"
-                  rows="6"
-                  cols="50"
+                  id="description"
+                  rows={6}
+                  cols={50}
                   className="rounded-md border-[1px] border-gray-300 bg-transparent p-6"
                   value={formData.description}
                   onChange={handleChange}
@@ -207,6 +230,7 @@ const ProjectRequest = () => {
           Submit
         </Button>
       </form>
+      <ToastContainer />
     </div>
   );
 };

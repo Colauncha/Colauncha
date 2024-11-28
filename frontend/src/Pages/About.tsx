@@ -1,9 +1,13 @@
 import { about1, about2, about3 } from "../constants"
 
 
+
 const About = () => {
+ 
   return (
-    <div className='min-h-screen w-full'>
+  <>
+  
+  <div className='min-h-screen w-full'>
       <div className="w-[90%] mx-auto pt-28 flex flex-col justify-center items-center gap-16">
          <div className="text-center mb-6">
          <h1 className="text-3xl font-bold lg:text-5xl">About Us</h1>
@@ -16,6 +20,7 @@ const About = () => {
          
 
          </div>
+        
          <div className="text-center mb-8 w-2/3">
           <h1  className="text-3xl font-bold lg:text-5xl">Our Mission</h1>
           <p className="text-xl "> To build a sustainable bridge between talented tech professionals and the startups that need them, empowering both sides to grow and succeed </p>
@@ -26,6 +31,9 @@ const About = () => {
          </div>
       </div>
     </div>
+
+
+  </>
   )
 }
 
