@@ -13,6 +13,7 @@ from server.middleware.auth import company_dependency
 routes = APIRouter(prefix="/requests", tags=["Service Requests"])
 
 
+# function to capture comma separated values as a list
 def return_list_or_none(obj: str | None) -> list | None:
     if not obj: obj = None
     elif "," in obj and len(obj) > 0:
@@ -23,7 +24,6 @@ def return_list_or_none(obj: str | None) -> list | None:
 
 @routes.post("/form-submit")
 async def form_submit(
-    company: company_dependency,
     background_tasks: BackgroundTasks,
     required_skills: Optional[str] = Form(None),
     estimated_budget: int = Form(...),
@@ -35,22 +35,7 @@ async def form_submit(
     email: str = Form(...),
     description: str = Form(...),
     attachment: Optional[UploadFile] = File(None),
-    db: Session = Depends(get_db)
 ) -> APIResponse:
-
-    if not company:
-        raise ErrorMessage(
-            message="Unauthorized",
-            status_code=401,
-            detail="Login to submit request"
-        )
-    
-    if company.has_errors:
-        raise ErrorMessage(
-            message="Unauthorized",
-            status_code=401,
-            detail=company.errors
-        )
 
     result = ServiceResultModel()
 
@@ -110,10 +95,6 @@ async def form_submit(
         RequestFormServices().form_submit_company,
         request_data,
         file_name
-    )
-
-    await RequestService(db).add_request(
-        company.data.id, request_data
     )
 
     return APIResponse(
