@@ -30,7 +30,7 @@ const Footer = () => {
               Follow our latest news
             </h2>
             {/* social links */}
-            <div className="flex gap-14 items-center">
+            <div className="flex gap-14 items-center max-w-[20rem] lg:w-[30rem]">
               <Link
                 to="https://web.facebook.com/profile.php?id=61561301576621" target="_blank" rel="noopener noreferrer"
                 className="rounded-full w-12 h-12 flex items-center justify-center"
@@ -41,7 +41,7 @@ const Footer = () => {
                 to="https://x.com/colauncha" target="_blank" rel="noopener noreferrer"
                 className="rounded-full flex items-center justify-center"
               >
-               <BsTwitterX className="w-5 h-5 font-bold"/>
+               <BsTwitterX className="w-4 h-4 font-bold"/>
               </Link>
               <Link
                 to="https://www.linkedin.com/company/colauncha/" target="_blank" rel="noopener noreferrer"

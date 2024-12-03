@@ -36,7 +36,7 @@ const Header: React.FC = (): JSX.Element => {
     <div className="w-full h-h-screen bg-[#3783FF] py-4 fixed top-0 left-0 z-20 ">
         {isMobileView ?  
         // Mobile Mode
-        <div className="w-full flex items-center px-4 justify-between sm:w-[90%] mx-auto relative">
+        <div className="w-full flex items-center px-4 justify-between sm:w-[80%] mx-auto relative">
             <div className="cursor-pointer">
             <Link to="/">
                 <img src={logo} alt="colauncha_logo" />

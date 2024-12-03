@@ -19,7 +19,7 @@ const Hero = () => {
 
           <div className="">
             <Button className="w-[180px] h-[40px]  text-md font-[600] rounded-xl bg-[#3783ff] hover:bg-blue-600">
-              <Link to="/dashboard">Get your team now</Link>
+              <Link to="/project-request">Get your team now</Link>
             </Button>
           </div>
         </div>

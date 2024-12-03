@@ -109,9 +109,9 @@ const Testimonial = () => {
             {feedback.map((item) => (
               <div className="space-y-44"   key={item.id}>
                 <div
-                  className="flex flex-col gap-[40px] bg-[#ff8c0080] p-4 h-[250px] rounded-3xl border-2 z-10 mt-20 lg:mt-24 "
+                  className="flex flex-col gap-[40px] bg-[#ff8c0080] p-4 h-[250px] rounded-3xl border-2 z-10 mt-28 lg:mt-24 "
                 >
-                  <div className="flex items-center gap-6">
+                  <div className="flex items-center gap-4">
                     <img
                       src={item.img}
                       alt={`${item.name}'s feedback`}
@@ -122,7 +122,7 @@ const Testimonial = () => {
                     </p>
                   </div>
                   <div>
-                    <p className="pt-4 text-lg text-white">{item.testimony}</p>
+                    <p className="text-lg text-white">{item.testimony}</p>
                   </div>
                 </div>
               </div>

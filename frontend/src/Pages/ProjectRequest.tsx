@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import axios from "axios";
+
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 import Talent from "../sections/Talent";
@@ -12,13 +13,16 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 
-
-
+// FORM REF WAS ADDED TO CLEAR THE FORM AFTER SUBMISSION
+//  IMPORT USEREF
+// INITIALIZE IT
+// SET THE FORMREF.CURRENT.RESET()
+// ATTACTH THE REF = {FORMREF } TO THE FORM ELEMENT.
 
 const ProjectRequest = () => {
 
   const {token} = useAuth();
-
+  const formRef = useRef(null)
 
   // State for each form field
   const [formData, setFormData] = useState({
@@ -65,36 +69,37 @@ const ProjectRequest = () => {
   };
 
   //  HANDLE FORM SUBMISSION
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    toast.success('Your form has been submitted successfully!');
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        toast.success('Your form has been submitted successfully!');
 
 
-    const formDataToSend = new FormData();
+        const formDataToSend = new FormData();
 
-  // Append each field to formDataToSend
-  for (const key in formData) {
-    formDataToSend.append(key, formData[key]);
-  }
+      // Append each field to formDataToSend
+      for (const key in formData) {
+        formDataToSend.append(key, formData[key]);
+      }
 
-  // Append the file attachment
-  formDataToSend.append("attachment", file);
+      // Append the file attachment
+      formDataToSend.append("attachment", file);
 
-  try {
-    // Send the POST request
-    const response = await axios.post("https://lc96ppln-8000.uks1.devtunnels.ms/api/requests/form-submit", formDataToSend, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-        Authorization: `Bearer ${token}`
-      },
-    });
-    if (response)
-    // Handle the response
-    console.log("Response:", response.data);
-  } catch (error) {
-    console.error("Error uploading form data:", error);
-  }
+      try {
+        // Send the POST request
+        const response = await axios.post("https://lc96ppln-8000.uks1.devtunnels.ms/api/requests/form-submit", formDataToSend, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`
+          },
+        });
+        if (response)
+        // Handle the response
+        console.log("Response:", response.data);
+      } catch (error) {
+        console.error("Error uploading form data:", error);
+      }
 
+      formRef.current.reset();
   };
 
   return (
@@ -109,7 +114,7 @@ const ProjectRequest = () => {
       <div className="text-center text-2xl mb-6 font-bold">
         <p>Let Us build your Project for you </p>
       </div>
-      <form className="bg-[#f5f5f5] w-[70%] mx-auto flex flex-col justify-center items-center" onKeyDown={(e) => {
+      <form ref={formRef} className="bg-[#f5f5f5] w-[70%] mx-auto flex flex-col justify-center items-center" onKeyDown={(e) => {
     if (e.key === "Enter") {
       e.preventDefault(); // Prevent form submission
     }

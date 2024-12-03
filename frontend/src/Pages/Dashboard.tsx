@@ -35,7 +35,7 @@ const Dashboard = () => {
                   Talents can join Colauncha Team via this route
                 </p>
               </div>
-              <div className="">
+              {/* <div className="">
                 <Button className="bg-green-600 hover:bg-green-300">
                   <Link to="/project-request">Request for Talents</Link>
                 </Button>
@@ -43,7 +43,7 @@ const Dashboard = () => {
                   Project owners and founders can requests for talents and as
                   well asks for Colauncha's team to Build their project(s)
                 </p>
-              </div>
+              </div> */}
             </div>
           </main>
         </div>

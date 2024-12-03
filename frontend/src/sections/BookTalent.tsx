@@ -46,7 +46,7 @@ const BookTalent = () => {
             </div>
             <div className="flex justify-center lg:justify-start ">
               <Button className="w-[180px] h-[40px]  text-md font-[600] rounded-xl bg-[#3783ff] hover:bg-blue-600">
-                <Link to="/dashboard">Book Here</Link>
+                <Link to="/project-request">Book Here</Link>
               </Button>
             </div>
           </div>
