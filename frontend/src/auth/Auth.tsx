@@ -54,8 +54,8 @@ const Auth = () => {
     setIsLoading(true); // Set loading state to true
     try {
       const url = isLogin
-        ? "https://lc96ppln-8000.uks1.devtunnels.ms/api/company/login"
-        : "https://lc96ppln-8000.uks1.devtunnels.ms/api/company/register";
+        ? "http://34.174.24.158/colauncha-api/company/login"
+        : "http://34.174.24.158/colauncha-api/company/register";
 
       const response = await axios.post(url, formData, {
         headers: {

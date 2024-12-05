@@ -14,7 +14,7 @@ from server.utils.exception_handler import  (
 )
 
 
-
+# Creat ASGI app
 def create_app():
     app = FastAPI(
         title=app_configs.APP_NAME.capitalize(),
