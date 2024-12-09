@@ -39,20 +39,21 @@ const Contact = () => {
             </Link>
           </div>
           <div className="bg-[#f7f5bc] w-full lg:h-[260px] xl:w-[50%]  rounded-[20px] py-16 px-8 md:px-12 flex flex-col">
-            <div className="flex flex-col">
+            <div className="flex flex-col items-center">
               <h2 className="text-center text-[24px] font-[600]">Call Us</h2>
-              <div className="flex gap-28 items-center md:gap-10 lg:gap-28">
-                <img src={phone_icon} alt="" />
+              <div className="flex gap-10 items-center md:gap-10 lg:gap-28">
+                <img src={phone_icon} alt="" className="w-8 h-8"  />
                 <h2 className="text-center text-[16px] font-[600]">
                   +234 7084274918
                 </h2>
               </div>
             </div>
-            <div className="flex flex-col">
+            {/* email */}
+            <div className="flex flex-col items-center">
               <h2 className="text-center text-[24px] font-[600]">Email</h2>
-              <div className="flex gap-28 items-center md:gap-10 lg:gap-28">
-                <img src={mail_icon} alt="" />
-                <h2 className="text-center text-[16px] font-[600]">
+              <div className="flex gap-10 items-center md:gap-10 lg:gap-28">
+                <img src={mail_icon} alt="" className="w-8 h-8" />
+                <h2 className="text-center text-[14px] font-[600]">
                   Colauncha@gmail.com
                 </h2>
               </div>

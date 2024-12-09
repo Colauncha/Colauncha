@@ -79,7 +79,7 @@ const Header: React.FC = (): JSX.Element => {
            <div className="flex items-center gap-x-4">
            <div>
                 <Button className="text-[#3783FF] w-28 bg-white rounded-xl hover:bg-blue-700 hover:text-white">
-                <Link to="/dashboard">
+                <Link to="/project-request">
                     Get Started
                     </Link> 
                 </Button>
@@ -109,7 +109,7 @@ const Header: React.FC = (): JSX.Element => {
             
             <div>
                 <Button className="text-[#3783FF] w-28 bg-white rounded-xl hover:bg-blue-700 hover:text-white">
-                    <Link to="/dashboard">
+                    <Link to="/project-request">
                     Get Started
                     </Link> 
                 </Button>
