@@ -20,7 +20,7 @@ const JoinAsTalent = () => {
           </p>
           <Link to="/talent-request">
             <Button className="bg-[#FF8C00] mt-10 w-[180px] h-[40px]  text-md font-[600] rounded-xl hover:bg-orange-600">
-              <Link to="/dashboard">Make a Request</Link>
+              <Link to="/talent-request">Make a Request</Link>
             </Button>
           </Link>
         </div>

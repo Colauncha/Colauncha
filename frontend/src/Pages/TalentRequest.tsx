@@ -11,9 +11,6 @@ import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-// @ts-ignore
-// const formDataToSend = formData.append("key", value);
-
 
 interface FormData {
   [key: string]: string;
@@ -102,7 +99,7 @@ const TalentRequest = () => {
 
   try {
     // Send the POST request
-    const response = await axios.post("http://34.174.24.158/colauncha-api/requests/volunteer-form-submit", formDataToSend, {
+    const response = await axios.post("https://api-colauncha.vercel.app/api/requests/volunteer-form-submit", formDataToSend, {
       headers: {
         "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${token}`

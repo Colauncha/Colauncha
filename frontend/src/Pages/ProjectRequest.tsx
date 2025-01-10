@@ -86,7 +86,7 @@ const ProjectRequest = () => {
 
       try {
         // Send the POST request
-        const response = await axios.post("http://34.174.24.158/colauncha-api/requests/form-submit", formDataToSend, {
+        const response = await axios.post("https://api-colauncha.vercel.app/api/requests/form-submit", formDataToSend, {
           headers: {
             "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${token}`
