@@ -5,6 +5,7 @@
     "build": {
       "env": {
         "PIP_NO_CACHE_DIR": "off"
-      }
+      },
+    "script": "pip install -r requirements.txt"
     }
   }
