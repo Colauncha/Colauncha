@@ -1,11 +1,16 @@
 {
+    "version": 2,
     "builds": [
-      { "src": "app.py", "use": "@vercel/python" }
-    ],
-    "build": {
-      "env": {
-        "PIP_NO_CACHE_DIR": "off"
-      },
-    "script": "pip install -r requirements.txt"
-    }
-  }
+        {
+          "src": "app.py",
+          "use": "@vercel/python",
+          "config": { "maxLambdaSize": "15mb" }
+        }
+      ],
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "app.py"
+        }
+    ]
+}
