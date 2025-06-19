@@ -36,6 +36,12 @@
       text-align: center;
     }
 
+    .enquiry_wrap {
+      white-space: pre-wrap;
+      text-align: left;
+      margin-top: 10px;
+    }
+
     .logo-container {
       background-color: #ddd;
       padding: 10px;
@@ -63,6 +69,7 @@
       border-left: 4px solid #4CAF50;
       background-color: #ffffff;
       text-align: left;
+      white-space: pre-wrap;
     }
 
     table {
@@ -100,75 +107,16 @@
   <div class="container">
     <!-- Logo with Lavender Background -->
     <div class="logo-container">
-      <img src="https://res.cloudinary.com/dtkv6il4e/image/upload/v1750267562/colauncha_logo_new_gvz9cb.png" alt="Logo"
-        class="logo">
+      <img
+        src="https://res.cloudinary.com/dtkv6il4e/image/upload/v1750267562/colauncha_logo_new_gvz9cb.png"
+        alt="Logo" class="logo">
     </div>
     <!-- Description Section -->
     <div class="description">
-      <p>Hello {{ company_name }},</p>
-      <p>We received your talent requisition for the <strong>{{ project_name}}</strong>.</p>
-      <p>The request will be reviewed and you will be contacted by a member of our team to discuss the next steps.</p>
-      <p>Find details of submitted request below.</p>
+      <p>Enquiry from <strong>{{ name }}</strong></p>
+      <p>Email: {{ email }}</p>
+      <p class="enquiry_wrap">{{ enquiry }}</p>
     </div>
-
-    <!-- Information Table -->
-    <table>
-      <tr>
-        <th>Parameter</th>
-        <th>Details</th>
-      </tr>
-      <tr>
-        <td><strong>Company Name</strong></td>
-        <td>{{ company_name }}</td>
-      </tr>
-      <tr>
-        <td><strong>Project Name</strong></td>
-        <td>{{ project_name }}</td>
-      </tr>
-      <tr>
-        <td><strong>Budget (Naira)</strong></td>
-        <td>{{ estimated_budget }}</td>
-      </tr>
-      <tr>
-        <td><strong>Timeline (Days)</strong></td>
-        <td>{{ max_project_time }}</td>
-      </tr>
-      <tr>
-        <td><strong>Skill(s) required</strong></td>
-        <td>
-          {% if required_skills is not none %}
-          <ul>
-            {% for skill in required_skills %}
-            <li>{{ skill }}</li>
-            {% endfor %}
-          </ul>
-          {% else %}
-          No skills specified.
-          {% endif %}
-        </td>
-      </tr>
-      <tr>
-        <td><strong>Country</strong></td>
-        <td>{{ country }}</td>
-      </tr>
-      <tr>
-        <td><strong>Attached File</strong></td>
-        <td>{% if filename is not none %}
-          {{ filename }}
-          {% else %}
-          No file attached.
-          {% endif %}
-        </td>
-      </tr>
-      <tr>
-        <td><strong>Phone</strong></td>
-        <td>{{ phone }}</td>
-      </tr>
-      <tr>
-        <td><strong>Email Address</strong></td>
-        <td>{{ email }}</td>
-      </tr>
-    </table>
     <div class="footer">
       <p>&copy; Colauncha, {{ current_year }}</p>
     </div>

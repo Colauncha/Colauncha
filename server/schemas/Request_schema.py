@@ -96,3 +96,7 @@ class GetRequestQuery(PagedQuery):
     id: Optional[str] = Query(None, description="Company's ID")
     company_id: Optional[str] = Query(None, description="Company's email address")
     project_name: Optional[str] = Query(None, description="Company's name")
+
+
+class EnquirySchema(pyd.BaseModel):
+    ...

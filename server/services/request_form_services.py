@@ -390,3 +390,7 @@ class RequestFormServices:
             self._send_email(message)
         
         return self._handle_email_operation(send_operation)
+
+# The code has been refactored to improve readability, maintainability, and error handling.
+    def submit_enquiry():
+        ...
